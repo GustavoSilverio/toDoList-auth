@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 using teste.Models;
 using teste.Repositories;
+using teste.Services;
 
 namespace teste.Controllers
 {
@@ -10,10 +12,12 @@ namespace teste.Controllers
     {
 
         private readonly IRepositiory _repository;
+        private readonly ITokenService _tokenService;
 
-        public ControlerTeste(IRepositiory repository)
+        public ControlerTeste(IRepositiory repository, ITokenService tokenService)
         {
             _repository = repository;
+            _tokenService = tokenService;
         }
 
         [HttpGet("get-all")]
@@ -60,10 +64,21 @@ namespace teste.Controllers
         }
 
         [HttpPost("logar")]
-        public async Task<ActionResult<Usuario>> Logar(Usuario usuario)
+        public async Task<ActionResult<LoginResponse>> Logar(Usuario usuario)
         {
+            var result = new LoginResponse();
             Usuario usuarioLogado = await _repository.Logar(usuario);
-            return Ok(usuarioLogado);
+            string token = _tokenService.GerarToken(usuarioLogado);
+            result.Tarefas = usuarioLogado.Tarefas;
+            result.Token = token;
+            return Ok(result);
+        }
+
+        [HttpGet("ola")]
+        public string Ola()
+        {
+            var sla = "Hey there!";
+            return sla;
         }
     }
 
