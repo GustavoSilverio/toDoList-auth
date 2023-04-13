@@ -1,5 +1,6 @@
 using System.Data.SqlClient;
 using teste.Repositories;
+using teste.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRepositiory, Repository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddHttpContextAccessor();
 
 // Configure the HTTP request pipeline.
