@@ -26,7 +26,7 @@ using (var connection = new SqlConnection(connectionString))
     // Cria as tabelas se elas não existirem, PARA FUNCIONAR É PRECISO QUE CRIE UM BANCO DE DADOS COM O NOME QUE QUISER E DEPOIS COLOCAR ESSE NOME
     // NOME NA CONNECTION_STRING,E NA QUERY ABAIXO ANTES DE INICIAR O PROJETO
     command.CommandText = @"
-        USE NOME_DO_BANCO;
+        USE teste123;
 
         IF NOT EXISTS(SELECT * FROM sys.tables WHERE name = 'Usuario')
         BEGIN
